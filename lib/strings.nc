@@ -14,17 +14,14 @@ pub fn split_once(str s, char delim) (str, str)? {
   if delim in s {
     false -> { return none }
     true -> {
-      mut bool past_split = false
-      mut str left = ""
-      mut str right = ""
+      mut uint char_idx = 0
       for i in s {
-        if (s[i], past_split) {
-          (delim, _) -> { past_split = true }
-          (_, false) -> { left = left <> @as(str, s[i]) }
-          (_, true) -> { right = right <> @as(str, s[i]) }
+        if s[i] {
+          delim -> { char_idx = i }
+          _ -> { continue }
         }
       }
-      return (left, right)
+      return (s[0:char_idx - 1], s[char_idx + 1:$])
     }
   }
 }

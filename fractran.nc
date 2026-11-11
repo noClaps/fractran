@@ -18,21 +18,20 @@ Options:
 """
 
 str[] args = @args()
-str[] args = args[1:$]
 
 if {
   "-h" in args or "--help" in args -> {
     @println(HELP)
     libc.exit(0)
   }
-  args.len < 1 -> {
+  args.len < 2 -> {
     @eprintln("""
       Missing required arguments: <file> <input>
       See fractran --help for more information.
       """)
     libc.exit(1)
   }
-  args.len < 2 -> {
+  args.len < 3 -> {
     @eprintln("""
       Missing required arguments: <input>
       See fractran --help for more information.
@@ -42,10 +41,10 @@ if {
   _ -> {}
 }
 
-str file = libc.read_to_str(args[0])
+str file = libc.read_to_str(args[1])
 
-str input = args[1]
-mut rational.Rational input = try rational.parse(input)
+str input = args[2]
+mut int input = try ints.parse(input)
 
 str[] lines = strings.lines(file)
 rational.Rational[] lines = arrays.map<str, rational.Rational>(lines, fn(str s) rational.Rational {
@@ -59,9 +58,9 @@ while true {
   rational.Rational frac = arrays.find<rational.Rational>(lines, fn(rational.Rational r) bool {
     return rational.multiply(r, input).denominator == 1
   }) else { break }
-  input = rational.multiply(input, frac)
+  input = rational.multiply(frac, input).numerator
   if {
-    ints.is_power_of_two(input.numerator) -> { @println(libc.ilog2(input.numerator)) }
+    ints.is_power_of_two(input) -> { @println(libc.ilog2(input)) }
     _ -> {}
   }
 }

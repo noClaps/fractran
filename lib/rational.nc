@@ -22,12 +22,12 @@ pub fn parse(str s) Rational! {
   }
 }
 
-pub fn multiply(Rational lhs, Rational rhs) Rational {
-  return simplify(Rational{
-    .numerator = lhs.numerator * rhs.numerator,
-    .denominator = lhs.denominator * rhs.denominator,
-  })
+pub fn multiply(Rational lhs, int rhs) Rational {
+  mut Rational r = lhs
+  r.numerator = r.numerator * rhs
+  return simplify(r)
 }
+
 pub fn simplify(Rational r) Rational {
   int gcd = ints.gcd(r.numerator, r.denominator)
   return Rational{.numerator = r.numerator / gcd, .denominator = r.denominator / gcd}

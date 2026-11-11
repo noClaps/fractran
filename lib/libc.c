@@ -1,4 +1,7 @@
 #include "./nc.h"
+#include <math.h>
+#include <stdio.h>
+#include <stdlib.h>
 
 void c_exit(int64_t code) { exit(code); }
 
