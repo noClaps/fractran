@@ -5,8 +5,8 @@
 
 void c_exit(int64_t code) { exit(code); }
 
-nc_str *c_read(nc_str path) {
-  FILE *file = fopen(path.data, "rb");
+nc_str *c_read(nc_str *path) {
+  FILE *file = fopen(path->data, "rb");
   if (file == NULL)
     return NULL;
 
